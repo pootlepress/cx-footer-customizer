@@ -43,6 +43,7 @@ class Pootlepress_Footer_Widget_Manager {
 	public function __construct ( $file ) {
 		$this->file = $file;
 		$this->load_plugin_textdomain();
+		add_action( 'init','check_main_heading', 0 );
 		add_action( 'init', array( &$this, 'load_localisation' ), 0 );
 
 		// Run this on activation.

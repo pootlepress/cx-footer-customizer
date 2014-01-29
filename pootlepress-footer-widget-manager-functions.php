@@ -1,4 +1,21 @@
 <?php
+if (!function_exists('check_main_heading')) {
+	function check_main_heading() {
+		$options = get_option('woo_template');
+		if (!in_array("Canvas Extensions", $options)) {
+			function woo_options_add($options){
+				$i = count($options);
+				$options[$i++] = array(
+						'name' => __('Canvas Extensions', 'pootlepress-canvas-extensions' ), 
+						'icon' => 'favorite', 
+						'type' => 'heading'
+						);
+				return $options;
+			}
+		}
+	}
+}
+
 if (!function_exists('footerWidgetCSS')) {
 	function footerWidgetCSS() {
 		// Footer Options
@@ -39,6 +56,14 @@ if (!function_exists('footerWidgetCSS')) {
 			$footer_widget_css .= "	background-color:".$footer_widget_bg_colour.";\n";
 		}
 		
+		#Check if full-with footer is enabled, if yes - set footer-widgets bg to none & place bg image under footer-widgets-container ID
+		$fullwidthfooter = get_option('woo_footer_full_width');
+		if ($fullwidthfooter == 'true') {
+			$footer_widget_css .= "	background: none\n";		
+			$footer_widget_css .= "}\n";		
+			$footer_widget_css .= "#footer-widgets-container {\n";
+		}
+		
 		if ($footer_widget_bg_image) {
 			$footer_widget_css .= "	background-image:url('".$footer_widget_bg_image."');\n";
 		}		
@@ -49,7 +74,8 @@ if (!function_exists('footerWidgetCSS')) {
 			$footer_widget_css .= "	background-position:".$footer_widget_bg_image_position.";\n";
 		}
 		
-		$footer_widget_css .= "}";
+		$footer_widget_css .= "}\n";		
+
 		
 		echo "<style>".$footer_widget_css."</style>";
 	}
