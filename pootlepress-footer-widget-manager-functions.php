@@ -20,10 +20,16 @@ if (!function_exists('footerWidgetCSS')) {
 	function footerWidgetCSS() {
 		// Footer Options
 		$footer_widget_font_title = get_option('pootlepress-footer-font-title');
+		$footer_widget_font_title_border = get_option('pootlepress-footer-font-title-border');
 		$footer_widget_font_text = get_option('pootlepress-footer-font-text');
 		$footer_widget_font_link_text = get_option('pootlepress-footer-font-link-text');
 		$footer_widget_font_linkhovertext = get_option('pootlepress-footer-font-link-hovertext');
+		$footer_widget_padding_tb = get_option('pootlepress-footer-padding-tb');
+		$footer_widget_padding_lr = get_option('pootlepress-footer-padding-lr');
+		$footer_widget_border = get_option('pootlepress-footer-border');
+		$footer_widget_border_radius = get_option('pootlepress-footer-border-radius');
 		$footer_widget_bg_colour = get_option('pootlepress-footer-background-colour');
+		$footer_widget_area_bg_colour = get_option('pootlepress-footer-area-background-colour');
 		$footer_widget_bg_image = get_option('pootlepress-footer-background-image');
 		$footer_widget_bg_image_repeat = get_option('pootlepress-footer-background-image-repeat');
 		$footer_widget_bg_image_position = get_option('pootlepress-footer-background-image-position');
@@ -38,22 +44,41 @@ if (!function_exists('footerWidgetCSS')) {
 			$footer_widget_css .= "#footer {\n	display: none !important;\n}\n";
 		}
 		if($footer_widget_font_title) {
-			$footer_widget_css .= ".widget h3 {\n	".woo_generate_font_css( $footer_widget_font_title, 1.4 )."\n}\n";
+			$footer_widget_css .= "#footer-widgets .block .widget h3 {\n	".woo_generate_font_css( $footer_widget_font_title, 1.4 )."\n}\n";
 		}
+		if($footer_widget_font_title_border) {
+			$footer_widget_css .= "#footer-widgets .block .widget h3 {\n	border-bottom: ".$footer_widget_font_title_border['width']."px ".$footer_widget_font_title_border['style']." ".$footer_widget_font_title_border['color'].";\n}\n";
+		}
+
 		if($footer_widget_font_text) {
-			$footer_widget_css .= ".widget {\n	".woo_generate_font_css( $footer_widget_font_text, 1.4 )."\n}\n";
+			$footer_widget_css .= "#footer-widgets .block .widget {\n	".woo_generate_font_css( $footer_widget_font_text, 1.4 )."\n";
+			$footer_widget_css .= "}\n";
 		}
 		if($footer_widget_font_link_text) {
-			$footer_widget_css .= ".widget a:link, a:visited {\n	color:".$footer_widget_font_link_text."\n}\n";
+			$footer_widget_css .= "#footer-widgets .block .widget a:link, a:visited {\n	color:".$footer_widget_font_link_text."\n}\n";
 		}
 		if($footer_widget_font_linkhovertext) {
-			$footer_widget_css .= ".widget a:hover {\n	color:".$footer_widget_font_linkhovertext."\n}\n";
+			$footer_widget_css .= "#footer-widgets .block .widget a:hover {\n	color:".$footer_widget_font_linkhovertext."\n}\n";
+		}
+		
+		if($footer_widget_bg_colour) {
+			$footer_widget_css .= "#footer-widgets .block .widget {\n	background-color:".$footer_widget_bg_colour." !important;\n}\n";
+		}
+		if ($footer_widget_padding_tb || $footer_widget__padding_lr) {
+			$footer_widget_css .= "#footer-widgets .block .widget {\n	padding:".$footer_widget_padding_tb."px ".$footer_widget_padding_lr."px !important;\n}\n";
+		}
+		if ($footer_widget_border["width"] > 0 ) {
+			$footer_widget_css .= "#footer-widgets .block .widget {\n	border:".$footer_widget_border['width']."px ".$footer_widget_border['style']." ".$footer_widget_border['color'].";\n}\n";
+		}
+		if ($footer_widget_border_radius) {
+			$footer_widget_css .= "#footer-widgets .block .widget {\n	border-radius:".$footer_widget_border_radius.";-moz-border-radius:".$footer_widget_border_radius.";-webkit-border-radius:".$footer_widget_border_radius.";\n}\n";
 		}
 		
 		#All Background CSS goes under #footer-widgets
-		$footer_widget_css .= "#footer-widgets {\n";		
-		if($footer_widget_bg_colour) {
-			$footer_widget_css .= "	background-color:".$footer_widget_bg_colour.";\n";
+		$footer_widget_css .= "#footer-widgets {\n";	
+		
+		if($footer_widget_area_bg_colour) {
+			$footer_widget_css .= "	background-color:".$footer_widget_area_bg_colour." !important;\n";
 		}
 		
 		#Check if full-with footer is enabled, if yes - set footer-widgets bg to none & place bg image under footer-widgets-container ID

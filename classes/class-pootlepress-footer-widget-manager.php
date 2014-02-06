@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * @subpackage Pootlepress_Footer_Widget_Manager
  * @category Core
  * @author Pootlepress
- * @since 1.0.0
+ * @since 0.1.0
  *
  * TABLE OF CONTENTS
  *
@@ -37,7 +37,7 @@ class Pootlepress_Footer_Widget_Manager {
 	 * Constructor.
 	 * @param string $file The base file of the plugin.
 	 * @access public
-	 * @since  1.0.0
+	 * @since  0.1.0
 	 * @return  void
 	 */
 	public function __construct ( $file ) {
@@ -82,6 +82,13 @@ class Pootlepress_Footer_Widget_Manager {
 				'type' => 'typography'
 				);
 		$o[] = array(
+				'name' => 'Footer Widget Title Bottom Border',
+				'desc' => 'Specify border property for the footer widget title.',
+				'id' => 'pootlepress-footer-font-title-border',
+				'std' => array('width' => '1','style' => 'solid','color' => '#e6e6e6'),
+				'type' => 'border'
+				);		
+		$o[] = array(
 				'name' => 'Footer Widget Text',
 				'desc' => 'Select typography for footer text',
 				'id' => 'pootlepress-footer-font-text',
@@ -103,9 +110,52 @@ class Pootlepress_Footer_Widget_Manager {
 				'type' => 'color'
 				);
 		$o[] =	array(
+					'name' => 'Footer Widget Padding',
+					'desc' => 'Enter an integer value i.e. 20 for the desired widget padding. Will override the padding options in "Styling and Layout > Widgets"',
+					'id' => 'pootlepress-footer-padding',
+					'std' => '',
+					'type' =>	array(
+									array(
+										'id' => 'pootlepress-footer-padding-tb',
+										'type' => 'text',
+										'std' => '',
+										'meta' => 'Top/Bottom'
+										),
+									array( 
+										'id' => 'pootlepress-footer-padding-lr',
+										'type' => 'text',
+										'std' => '',
+										'meta' => 'Left/Right'
+										)
+									)
+					);
+		$o[] = array(
+				'name' => 'Footer Widget Border',
+				'desc' => 'Specify border properties for widgets.',
+				'id' => 'pootlepress-footer-border',
+				'std' => array('width' => '0','style' => 'solid','color' => '#dbdbdb'),
+				'type' => 'border'
+				);
+
+		$o[] = array(
+				'name' => 'Footer Widget Rounded Corners',
+				'desc' => 'Set amount of pixels for border radius (rounded corners). Will only show in CSS3 compatible browser.',
+				'id' => 'pootlepress-footer-border-radius',
+				'type' => 'select',
+				'options' => array('1px','2px','3px','4px','5px','6px','7px','8px','9px','10px','11px','12px','13px','14px','15px','16px','17px','18px','19px','20px')
+				);
+					
+		$o[] =	array(
 				'name' => 'Footer Widget Background Colour',
-				'desc' => 'Select the background color you want for your footer widget area. You can also set the background colour of the full-width footer widget area in the "full-width styling and layout > full width layout" options',
+				'desc' => 'Select the background colour you want for footer widgets.',
 				'id' => 'pootlepress-footer-background-colour',
+				'std' => '',
+				'type' => 'color'
+				);
+		$o[] =	array(
+				'name' => 'Footer Widget Area Background Colour',
+				'desc' => 'Select the background colour you want for your footer widget area. This will override the background colour in "styling and layout > widgets". You can also set the background colour of the full-width footer widget area in the "full-width styling and layout > full width layout" options',
+				'id' => 'pootlepress-footer-area-background-colour',
 				'std' => '',
 				'type' => 'color'
 				);
