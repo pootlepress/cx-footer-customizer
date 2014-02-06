@@ -36,6 +36,8 @@ if (!function_exists('footerWidgetCSS')) {
 		$footer_widget_disable_mobile = get_option('pootlepress-footer-disable-mobile');
 		$footer_widget_disable_canvas = get_option('pootlepress-footer-disable-canvas');
 		
+		$footer_widget_full_width = get_option('woo_footer_full_width');
+		
 		$footer_widget_css = "";
 		if ($footer_widget_disable_mobile=="true") {
 			$footer_widget_css .= "@media screen and (min-width: 0px) and (max-width: 720px) {\n	#footer-widgets {\n		display: none !important;\n	}\n}\n";
@@ -51,8 +53,8 @@ if (!function_exists('footerWidgetCSS')) {
 		}
 
 		if($footer_widget_font_text) {
-			$footer_widget_css .= "#footer-widgets .block .widget {\n	".woo_generate_font_css( $footer_widget_font_text, 1.4 )."\n";
-			$footer_widget_css .= "}\n";
+			$footer_widget_css .= "#footer-widgets .block .widget p {\n	".woo_generate_font_css( $footer_widget_font_text, 1.4 )."\n}\n";
+			$footer_widget_css .= "#footer-widgets .block .textwidget {\n	".woo_generate_font_css( $footer_widget_font_text, 1.4 )."\n}\n";
 		}
 		if($footer_widget_font_link_text) {
 			$footer_widget_css .= "#footer-widgets .block .widget a:link, a:visited {\n	color:".$footer_widget_font_link_text."\n}\n";
@@ -63,7 +65,10 @@ if (!function_exists('footerWidgetCSS')) {
 		
 		if($footer_widget_bg_colour) {
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	background-color:".$footer_widget_bg_colour." !important;\n}\n";
+		} else {
+			$footer_widget_css .= "#footer-widgets .block .widget {\n	background: none !important;\n}\n";
 		}
+		
 		if ($footer_widget_padding_tb || $footer_widget__padding_lr) {
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	padding:".$footer_widget_padding_tb."px ".$footer_widget_padding_lr."px !important;\n}\n";
 		}
@@ -74,19 +79,20 @@ if (!function_exists('footerWidgetCSS')) {
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	border-radius:".$footer_widget_border_radius.";-moz-border-radius:".$footer_widget_border_radius.";-webkit-border-radius:".$footer_widget_border_radius.";\n}\n";
 		}
 		
-		#All Background CSS goes under #footer-widgets
-		$footer_widget_css .= "#footer-widgets {\n";	
-		
 		if($footer_widget_area_bg_colour) {
-			$footer_widget_css .= "	background-color:".$footer_widget_area_bg_colour." !important;\n";
+			if ($footer_widget_full_width=='true') {
+				$footer_widget_css .= "#footer-widgets-container {\n	background-color:".$footer_widget_area_bg_colour." !important;\n}\n";
+			} else {
+				$footer_widget_css .= "#footer-widgets {\n	background-color:".$footer_widget_area_bg_colour." !important;\n}\n";
+			}
 		}
 		
-		#Check if full-with footer is enabled, if yes - set footer-widgets bg to none & place bg image under footer-widgets-container ID
-		$fullwidthfooter = get_option('woo_footer_full_width');
-		if ($fullwidthfooter == 'true') {
-			$footer_widget_css .= "	background: none\n";		
-			$footer_widget_css .= "}\n";		
+			
+		#Check if full-width footer is enabled, if yes - set background image under footer-container id
+		if ($footer_widget_full_width == 'true') {	
 			$footer_widget_css .= "#footer-widgets-container {\n";
+		} else {
+			$footer_widget_css .= "#footer-widgets {\n";	
 		}
 		
 		if ($footer_widget_bg_image) {
