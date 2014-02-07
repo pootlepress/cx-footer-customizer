@@ -57,10 +57,10 @@ if (!function_exists('footerWidgetCSS')) {
 			$footer_widget_css .= "#footer-widgets .block .textwidget {\n	".woo_generate_font_css( $footer_widget_font_text, 1.4 )."\n}\n";
 		}
 		if($footer_widget_font_link_text) {
-			$footer_widget_css .= "#footer-widgets .block .widget a:link, a:visited {\n	color:".$footer_widget_font_link_text."\n}\n";
+			$footer_widget_css .= "#footer-widgets a:link,#footer-widgets a:visited {\n	color:".$footer_widget_font_link_text."\n}\n";
 		}
 		if($footer_widget_font_linkhovertext) {
-			$footer_widget_css .= "#footer-widgets .block .widget a:hover {\n	color:".$footer_widget_font_linkhovertext."\n}\n";
+			$footer_widget_css .= "#footer-widgets a:hover {\n	color:".$footer_widget_font_linkhovertext."\n}\n";
 		}
 		
 		if($footer_widget_bg_colour) {

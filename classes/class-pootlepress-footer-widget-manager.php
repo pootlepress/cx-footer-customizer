@@ -71,7 +71,7 @@ class Pootlepress_Footer_Widget_Manager {
 				'name' => 'Widget Settings',
 				'desc' => '',
 				'id' => 'pootlepress-footer-widget-manager-notice',
-				'std' => __( 'Footer Widget Manager settings will over-rise the Canvas widget settings for the footer area only', 'woothemes' ),
+				'std' => __( 'Footer Widget Manager settings will over-ride the Canvas widget settings for the footer area only', 'woothemes' ),
 				'type' => 'info'
 				);
 		$o[] = array(

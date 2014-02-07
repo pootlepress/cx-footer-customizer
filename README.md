@@ -18,4 +18,3 @@ v0.1.1 - Fixed widget background colour issue; Fixed widget padding issue; Added
 
 v0.1.0 - Initial release
 
-
