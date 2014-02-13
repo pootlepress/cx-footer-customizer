@@ -145,7 +145,7 @@ class Pootlepress_Footer_Widget_Manager {
 				'options' => array('1px','2px','3px','4px','5px','6px','7px','8px','9px','10px','11px','12px','13px','14px','15px','16px','17px','18px','19px','20px')
 				);
 					
-		$o[] =	array(
+		/*$o[] =	array(
 				'name' => 'Footer Widget Background Colour',
 				'desc' => 'Select the background colour you want for footer widgets.',
 				'id' => 'pootlepress-footer-background-colour',
@@ -158,6 +158,12 @@ class Pootlepress_Footer_Widget_Manager {
 				'id' => 'pootlepress-footer-area-background-colour',
 				'std' => '',
 				'type' => 'color'
+				);*/
+		$o[] =	array(
+				'name' => 'Footer Widget Background Colour & Area Colour',
+				'std' => 'Select the background colour and widget area colour in "Theme Options > Styling & Options > Full Width"',
+				'id' => 'pootlepress-footer-background-colour',
+				'type' => 'info'
 				);
 		$o[] = array(
 				'name' => 'Footer Widget Background Image',

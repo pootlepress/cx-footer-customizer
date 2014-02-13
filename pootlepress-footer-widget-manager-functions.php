@@ -62,30 +62,31 @@ if (!function_exists('footerWidgetCSS')) {
 		if($footer_widget_font_linkhovertext) {
 			$footer_widget_css .= "#footer-widgets a:hover {\n	color:".$footer_widget_font_linkhovertext."\n}\n";
 		}
-		
-		if($footer_widget_bg_colour) {
-			$footer_widget_css .= "#footer-widgets .block .widget {\n	background-color:".$footer_widget_bg_colour." !important;\n}\n";
-		} else {
-			$footer_widget_css .= "#footer-widgets .block .widget {\n	background: none !important;\n}\n";
-		}
+
 		
 		if ($footer_widget_padding_tb || $footer_widget__padding_lr) {
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	padding:".$footer_widget_padding_tb."px ".$footer_widget_padding_lr."px !important;\n}\n";
 		}
 		if ($footer_widget_border["width"] > 0 ) {
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	border:".$footer_widget_border['width']."px ".$footer_widget_border['style']." ".$footer_widget_border['color'].";\n}\n";
-		}
-		if ($footer_widget_border_radius) {
-			$footer_widget_css .= "#footer-widgets .block .widget {\n	border-radius:".$footer_widget_border_radius.";-moz-border-radius:".$footer_widget_border_radius.";-webkit-border-radius:".$footer_widget_border_radius.";\n}\n";
+			if ($footer_widget_border_radius) {
+				$footer_widget_css .= "#footer-widgets .block .widget {\n	border-radius:".$footer_widget_border_radius.";-moz-border-radius:".$footer_widget_border_radius.";-webkit-border-radius:".$footer_widget_border_radius.";\n}\n";
+			}
 		}
 		
+		/*Disabled - change these settings through STling & Options > Full Width
+		if($footer_widget_bg_colour) {
+			$footer_widget_css .= "#footer-widgets .block .widget {\n	background-color:".$footer_widget_bg_colour." !important;\n}\n";
+		} else {
+			$footer_widget_css .= "#footer-widgets .block .widget {\n	background: none !important;\n}\n";
+		}		
 		if($footer_widget_area_bg_colour) {
 			if ($footer_widget_full_width=='true') {
 				$footer_widget_css .= "#footer-widgets-container {\n	background-color:".$footer_widget_area_bg_colour." !important;\n}\n";
 			} else {
 				$footer_widget_css .= "#footer-widgets {\n	background-color:".$footer_widget_area_bg_colour." !important;\n}\n";
 			}
-		}
+		}*/
 		
 			
 		#Check if full-width footer is enabled, if yes - set background image under footer-container id
