@@ -10,6 +10,8 @@ Instructions
 
 Versions
 
+v1.0.1 - Footer Widget Border issue fixed (#15)
+
 v1.0.0 - First release!
 
 v0.1.2 - Fixed background colour blank if no colour chosen issue, fixed full-width issue, fixed text colour option issue.
