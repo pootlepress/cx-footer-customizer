@@ -10,6 +10,8 @@ Instructions
 
 Versions
 
+v1.0.3 - Re-Added Footer Widget Background Colour
+
 v1.0.2 - Remove footer widget area settings that are already in Canvas - Full width options
 
 v1.0.1 - Footer Widget Border issue fixed (#15)

@@ -145,14 +145,14 @@ class Pootlepress_Footer_Widget_Manager {
 				'options' => array('1px','2px','3px','4px','5px','6px','7px','8px','9px','10px','11px','12px','13px','14px','15px','16px','17px','18px','19px','20px')
 				);
 					
-		/*$o[] =	array(
+		$o[] =	array(
 				'name' => 'Footer Widget Background Colour',
 				'desc' => 'Select the background colour you want for footer widgets.',
 				'id' => 'pootlepress-footer-background-colour',
 				'std' => '',
 				'type' => 'color'
 				);
-		$o[] =	array(
+		/*$o[] =	array(
 				'name' => 'Footer Widget Area Background Colour',
 				'desc' => 'Select the background colour you want for your footer widget area. This will override the background colour in "styling and layout > widgets". You can also set the background colour of the full-width footer widget area in the "full-width styling and layout > full width layout" options',
 				'id' => 'pootlepress-footer-area-background-colour',
