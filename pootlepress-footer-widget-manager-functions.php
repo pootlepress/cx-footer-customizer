@@ -74,13 +74,12 @@ if (!function_exists('footerWidgetCSS')) {
 			}
 		}
 		
-		/*Disabled - change these settings through STling & Options > Full Width
 		if($footer_widget_bg_colour) {
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	background-color:".$footer_widget_bg_colour." !important;\n}\n";
 		} else {
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	background: none !important;\n}\n";
 		}		
-		if($footer_widget_area_bg_colour) {
+		/*if($footer_widget_area_bg_colour) {
 			if ($footer_widget_full_width=='true') {
 				$footer_widget_css .= "#footer-widgets-container {\n	background-color:".$footer_widget_area_bg_colour." !important;\n}\n";
 			} else {
