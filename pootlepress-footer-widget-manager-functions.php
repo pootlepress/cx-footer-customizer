@@ -67,7 +67,7 @@ if (!function_exists('footerWidgetCSS')) {
 		if ($footer_widget_padding_tb || $footer_widget__padding_lr) {
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	padding:".$footer_widget_padding_tb."px ".$footer_widget_padding_lr."px !important;\n}\n";
 		}
-		if ($footer_widget_border["width"] > 0 ) {
+		if ($footer_widget_border["width"] >= 0 ) {		// v.1.0.3 - was width > 0
 			$footer_widget_css .= "#footer-widgets .block .widget {\n	border:".$footer_widget_border['width']."px ".$footer_widget_border['style']." ".$footer_widget_border['color'].";\n}\n";
 			if ($footer_widget_border_radius) {
 				$footer_widget_css .= "#footer-widgets .block .widget {\n	border-radius:".$footer_widget_border_radius.";-moz-border-radius:".$footer_widget_border_radius.";-webkit-border-radius:".$footer_widget_border_radius.";\n}\n";
