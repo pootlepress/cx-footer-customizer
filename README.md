@@ -10,11 +10,10 @@ Instructions
 
 Versions
 
-<<<<<<< HEAD
+
 v1.0.4 - Fix "Footer Widget Border" setting to 0px results in a border width of 1px. (issue #16)
-=======
+
 v1.0.3 - Re-Added Footer Widget Background Colour
->>>>>>> FETCH_HEAD
 
 v1.0.2 - Remove footer widget area settings that are already in Canvas - Full width options
 
