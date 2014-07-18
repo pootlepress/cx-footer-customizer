@@ -28,8 +28,21 @@ License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2
 
 	require_once( 'pootlepress-footer-widget-manager-functions.php' );
 	require_once( 'classes/class-pootlepress-footer-widget-manager.php' );
+    require_once( 'classes/class-pootlepress-updater.php');
 
     $GLOBALS['pootlepress_footer_widget_manager'] = new Pootlepress_Footer_Widget_Manager( __FILE__ );
     $GLOBALS['pootlepress_footer_widget_manager']->version = '1.0.5';
-	
+
+add_action('init', 'pp_fwm_updater');
+function pp_fwm_updater()
+{
+    if (!function_exists('get_plugin_data')) {
+        include(ABSPATH . 'wp-admin/includes/plugin.php');
+    }
+    $data = get_plugin_data(__FILE__);
+    $wptuts_plugin_current_version = $data['Version'];
+    $wptuts_plugin_remote_path = 'http://www.pootlepress.com/?updater=1';
+    $wptuts_plugin_slug = plugin_basename(__FILE__);
+    new Pootlepress_Updater ($wptuts_plugin_current_version, $wptuts_plugin_remote_path, $wptuts_plugin_slug);
+}
 ?>
