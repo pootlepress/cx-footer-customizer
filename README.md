@@ -10,6 +10,8 @@ Instructions
 
 Versions
 
+v1.1 - ability to update within WordPress
+
 v1.0.5 - fix php warning and add woo_options_add issue
 
 v1.0.4 - Fix "Footer Widget Border" setting to 0px results in a border width of 1px. (issue #16)
