@@ -65,7 +65,8 @@ class Pootlepress_Footer_Widget_Manager {
 	public function add_theme_options ( $o ) {
 		$o[] = array(
 				'name' => 'Footer Widget Manager', 
-				'type' => 'subheading'
+				'type' => 'subheading',
+                'desc' => '',
 				);
 		$o[] = array(
 				'name' => 'Widget Settings',
@@ -162,6 +163,7 @@ class Pootlepress_Footer_Widget_Manager {
 		$o[] =	array(
 				'name' => 'Footer Widget Background Colour & Area Colour',
 				'std' => 'Select the background colour and widget area colour in "Theme Options > Styling & Options > Full Width"',
+                'desc' => '',
 				'id' => 'pootlepress-footer-background-colour',
 				'type' => 'info'
 				);
