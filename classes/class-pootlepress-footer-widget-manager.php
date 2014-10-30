@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  *
  * public $token
  * public $version
- * private $_menu_style
  * 
  * - __construct()
  * - add_theme_options()
@@ -31,7 +30,16 @@ class Pootlepress_Footer_Widget_Manager {
 	public $token = 'pootlepress-footer-widget-manager';
 	public $version;
 	private $file;
-	private $_menu_style;
+
+    private $stickyWidgetAreaDesktopEnabled;
+    private $stickyWidgetAreaMobileEnabled;
+    private $stickyFooterDesktopEnabled;
+    private $stickyFooterMobileEnabled;
+
+    private $dropShadowColor;
+    private $dropShadowPosition;
+    private $dropShadowBlur;
+    private $dropShadowApply;
 
 	/**
 	 * Constructor.
@@ -54,6 +62,19 @@ class Pootlepress_Footer_Widget_Manager {
 
 		// Lood for a method/function for the selected style and load it.
 		add_action('init', array( &$this, 'load_footer_widget_manager' ) );
+
+        add_action('wp_enqueue_scripts', array($this, 'frontend_script'));
+
+        $this->stickyWidgetAreaDesktopEnabled = get_option('pootlepress-footer-sticky-widget-area-desktop', 'false') == 'true';
+        $this->stickyWidgetAreaMobileEnabled = get_option('pootlepress-footer-sticky-widget-area-mobile', 'false') == 'true';
+        $this->stickyFooterDesktopEnabled = get_option('pootlepress-footer-sticky-footer-desktop', 'false') == 'true';
+        $this->stickyFooterMobileEnabled = get_option('pootlepress-footer-sticky-footer-mobile', 'false') == 'true';
+
+        $this->dropShadowColor = get_option('pootlepress-footer-drop-shadow-color', '');
+        $this->dropShadowPosition = get_option('pootlepress-footer-drop-shadow-position', '0px');
+        $this->dropShadowBlur = get_option('pootlepress-footer-drop-shadow-blur', '0px');
+        $this->dropShadowApply = get_option('pootlepress-footer-drop-shadow-apply', 'none');
+
 	} // End __construct()
 
 	/**
@@ -64,7 +85,7 @@ class Pootlepress_Footer_Widget_Manager {
 	 */	
 	public function add_theme_options ( $o ) {
 		$o[] = array(
-				'name' => 'Footer Widget Manager', 
+				'name' => 'Footer Customizer',
 				'type' => 'subheading',
                 'desc' => '',
 				);
@@ -203,7 +224,75 @@ class Pootlepress_Footer_Widget_Manager {
   				'std' => 'true',
 				'type' => 'checkbox'
 				);
-		return $o;
+
+        $o[] = array(
+            'name' => 'Make the footer widget area sticky on desktop',
+            'desc' => 'full width footer must be enabled in Canvas',
+            'id' => 'pootlepress-footer-sticky-widget-area-desktop',
+            'std' => 'false',
+            'type' => 'checkbox'
+        );
+        $o[] = array(
+            'name' => 'Make the footer widget area sticky on mobile',
+            'desc' => 'full width footer must be enabled in Canvas',
+            'id' => 'pootlepress-footer-sticky-widget-area-mobile',
+            'std' => 'false',
+            'type' => 'checkbox'
+        );
+        $o[] = array(
+            'name' => 'Make the footer sticky on desktop',
+            'desc' => '',
+            'id' => 'pootlepress-footer-sticky-footer-desktop',
+            'std' => 'false',
+            'type' => 'checkbox'
+        );
+        $o[] = array(
+            'name' => 'Make the footer sticky on mobile',
+            'desc' => '',
+            'id' => 'pootlepress-footer-sticky-footer-mobile',
+            'std' => 'false',
+            'type' => 'checkbox'
+        );
+
+        $o[] = array(
+            'name' => 'Drop shadow color',
+            'desc' => '',
+            'id' => 'pootlepress-footer-drop-shadow-color',
+            'std' => '',
+            'type' => 'color'
+        );
+        $pixelChoices = array();
+        for ($i = 0; $i <= 100; ++$i) {
+            $pixelChoices[] = $i . 'px';
+        }
+
+        $o[] = array(
+            'name' => 'Drop shadow px',
+            'desc' => '',
+            'id' => 'pootlepress-footer-drop-shadow-position',
+            'std' => '0px',
+            'type' => 'select',
+            'options' => $pixelChoices
+        );
+
+        $o[] = array(
+            'name' => 'Drop shadow radius',
+            'desc' => '',
+            'id' => 'pootlepress-footer-drop-shadow-blur',
+            'std' => '0px',
+            'type' => 'select',
+            'options' => $pixelChoices
+        );
+
+        $o[] = array(
+            'name' => 'Apply drop shadow to',
+            'desc' => '',
+            'id' => 'pootlepress-footer-drop-shadow-apply',
+            'std' => 'none',
+            'type' => 'select',
+            'options' => array('none', 'footer widget area', 'footer')
+        );
+        return $o;
 	} // End add_theme_options()
 	
 	/**
@@ -253,6 +342,20 @@ class Pootlepress_Footer_Widget_Manager {
 		}
 	} // End register_plugin_version()
 
+    public function frontend_script() {
+        wp_enqueue_script('footer-customizer', plugin_dir_url($this->file) . '/scripts/footer-customizer.js', array('jquery'));
+
+        $isFooterFullWidth = get_option('woo_footer_full_width') == 'true';
+
+        wp_localize_script('footer-customizer', 'PPFooterCustomizer', array(
+            'isFooterFullWidth' => $isFooterFullWidth,
+            'stickyFooterDesktop' => $this->stickyFooterDesktopEnabled,
+            'stickyFooterMobile' => $this->stickyFooterMobileEnabled,
+            'stickyWidgetAreaDesktop' => $this->stickyWidgetAreaDesktopEnabled,
+            'stickyWidgetAreaMobile' => $this->stickyWidgetAreaMobileEnabled
+        ));
+    }
+
 	/**
 	 * Add CSS to header
 	 * @access  public
@@ -260,8 +363,222 @@ class Pootlepress_Footer_Widget_Manager {
 	 * @return  void
 	 */
 	public function load_footer_widget_manager () {
-		add_action('wp_head', 'footerWidgetCSS');
+		add_action('wp_head', array($this, 'option_css'));
 	} // End load_footer_widget_manager()
+
+    public function option_css() {
+        // Footer Options
+        $footer_widget_font_title = get_option('pootlepress-footer-font-title');
+        $footer_widget_font_title_border = get_option('pootlepress-footer-font-title-border');
+        $footer_widget_font_text = get_option('pootlepress-footer-font-text');
+        $footer_widget_font_link_text = get_option('pootlepress-footer-font-link-text');
+        $footer_widget_font_linkhovertext = get_option('pootlepress-footer-font-link-hovertext');
+        $footer_widget_padding_tb = get_option('pootlepress-footer-padding-tb');
+        $footer_widget_padding_lr = get_option('pootlepress-footer-padding-lr');
+        $footer_widget_border = get_option('pootlepress-footer-border');
+        $footer_widget_border_radius = get_option('pootlepress-footer-border-radius');
+        $footer_widget_bg_colour = get_option('pootlepress-footer-background-colour');
+        $footer_widget_area_bg_colour = get_option('pootlepress-footer-area-background-colour');
+        $footer_widget_bg_image = get_option('pootlepress-footer-background-image');
+        $footer_widget_bg_image_repeat = get_option('pootlepress-footer-background-image-repeat');
+        $footer_widget_bg_image_position = get_option('pootlepress-footer-background-image-position');
+        $footer_widget_disable_mobile = get_option('pootlepress-footer-disable-mobile');
+        $footer_widget_disable_canvas = get_option('pootlepress-footer-disable-canvas');
+
+        $footer_widget_full_width = get_option('woo_footer_full_width');
+
+        $footer_widget_css = "";
+        if ($footer_widget_disable_mobile=="true") {
+            $footer_widget_css .= "@media screen and (min-width: 0px) and (max-width: 720px) {\n	#footer-widgets {\n		display: none !important;\n	}\n}\n";
+        }
+        if ($footer_widget_disable_canvas=="true") {
+            $footer_widget_css .= "#footer {\n	display: none !important;\n}\n";
+        }
+        if($footer_widget_font_title) {
+            $footer_widget_css .= "#footer-widgets .block .widget h3 {\n	".woo_generate_font_css( $footer_widget_font_title, 1.4 )."\n}\n";
+        }
+        if($footer_widget_font_title_border) {
+            $footer_widget_css .= "#footer-widgets .block .widget h3 {\n	border-bottom: ".$footer_widget_font_title_border['width']."px ".$footer_widget_font_title_border['style']." ".$footer_widget_font_title_border['color'].";\n}\n";
+        }
+
+        if($footer_widget_font_text) {
+            $footer_widget_css .= "#footer-widgets .block .widget p {\n	".woo_generate_font_css( $footer_widget_font_text, 1.4 )."\n}\n";
+            $footer_widget_css .= "#footer-widgets .block .textwidget {\n	".woo_generate_font_css( $footer_widget_font_text, 1.4 )."\n}\n";
+        }
+        if($footer_widget_font_link_text) {
+            $footer_widget_css .= "#footer-widgets a:link,#footer-widgets a:visited {\n	color:".$footer_widget_font_link_text."\n}\n";
+        }
+        if($footer_widget_font_linkhovertext) {
+            $footer_widget_css .= "#footer-widgets a:hover {\n	color:".$footer_widget_font_linkhovertext."\n}\n";
+        }
+
+
+        if ($footer_widget_padding_tb || $footer_widget_padding_lr) {
+            $footer_widget_css .= "#footer-widgets .block .widget {\n	padding:".$footer_widget_padding_tb."px ".$footer_widget_padding_lr."px !important;\n}\n";
+        }
+        if ($footer_widget_border["width"] >= 0 ) {		// v.1.0.4 - was width > 0
+            $footer_widget_css .= "#footer-widgets .block .widget {\n	border:".$footer_widget_border['width']."px ".$footer_widget_border['style']." ".$footer_widget_border['color'].";\n}\n";
+            if ($footer_widget_border_radius) {
+                $footer_widget_css .= "#footer-widgets .block .widget {\n	border-radius:".$footer_widget_border_radius.";-moz-border-radius:".$footer_widget_border_radius.";-webkit-border-radius:".$footer_widget_border_radius.";\n}\n";
+            }
+        }
+
+        if($footer_widget_bg_colour) {
+            $footer_widget_css .= "#footer-widgets .block .widget {\n	background-color:".$footer_widget_bg_colour." !important;\n}\n";
+        } else {
+            $footer_widget_css .= "#footer-widgets .block .widget {\n	background: none !important;\n}\n";
+        }
+        /*if($footer_widget_area_bg_colour) {
+            if ($footer_widget_full_width=='true') {
+                $footer_widget_css .= "#footer-widgets-container {\n	background-color:".$footer_widget_area_bg_colour." !important;\n}\n";
+            } else {
+                $footer_widget_css .= "#footer-widgets {\n	background-color:".$footer_widget_area_bg_colour." !important;\n}\n";
+            }
+        }*/
+
+
+        #Check if full-width footer is enabled, if yes - set background image under footer-container id
+        if ($footer_widget_full_width == 'true') {
+            $footer_widget_css .= "#footer-widgets-container {\n";
+        } else {
+            $footer_widget_css .= "#footer-widgets {\n";
+        }
+
+        if ($footer_widget_bg_image) {
+            $footer_widget_css .= "	background-image:url('".$footer_widget_bg_image."');\n";
+        }
+        if ($footer_widget_bg_image_repeat) {
+            $footer_widget_css .= "	background-repeat:".$footer_widget_bg_image_repeat.";\n";
+        }
+        if ($footer_widget_bg_image_position) {
+            $footer_widget_css .= "	background-position:".$footer_widget_bg_image_position.";\n";
+        }
+
+        $footer_widget_css .= "}\n";
+
+        $stickyCss = '';
+        if ($this->stickyFooterDesktopEnabled) {
+            if ($footer_widget_full_width == 'true') {
+                $stickyCss .= "@media only screen and (min-width: 768px) {\n";
+
+                $stickyCss .= "#footer-container {\n";
+
+                $stickyCss .= "\t" . "position: fixed;\n";
+                $stickyCss .= "\t" . "bottom: 0;\n";
+                $stickyCss .= "\t" . "width: 100%;\n";
+                $stickyCss .= "\t" . "z-index: 9100;\n"; //#navigation z-index is 9000;
+                $stickyCss .= "}\n";
+
+                $stickyCss .= "}\n";
+            }
+        }
+
+        if ($this->stickyWidgetAreaDesktopEnabled) {
+            if ($footer_widget_full_width == 'true') {
+                $stickyCss .= "@media only screen and (min-width: 768px) {\n";
+
+                $stickyCss .= "#footer-widgets-container {\n";
+                $stickyCss .= "\t" . "position: fixed;\n";
+                $stickyCss .= "\t" . "bottom: 0;\n";
+                $stickyCss .= "\t" . "width: 100%;\n";
+                $stickyCss .= "\t" . "z-index: 9100;\n"; //#navigation z-index is 9000;
+                $stickyCss .= "}\n";
+
+                // sticky the bottom part too
+                $stickyCss .= "#footer-container {\n";
+                $stickyCss .= "\t" . "position: fixed;\n";
+                $stickyCss .= "\t" . "bottom: 0;\n";
+                $stickyCss .= "\t" . "width: 100%;\n";
+                $stickyCss .= "\t" . "z-index: 9100;\n"; //#navigation z-index is 9000;
+                $stickyCss .= "}\n";
+
+                $stickyCss .= "}\n";
+
+            }
+        }
+
+        $footerElement = '';
+        if ($footer_widget_full_width == 'true') {
+            $footerElement = '#footer-container';
+        } else {
+            $footerElement = '#footer';
+        }
+
+        if ($this->stickyFooterMobileEnabled) {
+
+
+
+            $stickyCss .= "@media only screen and (max-width: 767px) {\n";
+
+            $stickyCss .= "$footerElement {\n";
+            $stickyCss .= "\t" . "position: fixed;\n";
+            $stickyCss .= "\t" . "bottom: 0;\n";
+            $stickyCss .= "\t" . "width: 100%;\n";
+            $stickyCss .= "\t" . "left: 0;\n";
+            $stickyCss .= "\t" . "z-index: 9100;\n"; //#navigation z-index is 9000;
+            $stickyCss .= "}\n";
+
+            $stickyCss .= "}\n";
+        }
+
+        if ($this->stickyWidgetAreaMobileEnabled) {
+            if ($footer_widget_full_width == 'true') {
+                $stickyCss .= "@media only screen and (max-width: 767px) {\n";
+
+                $stickyCss .= "#footer-widgets-container {\n";
+                $stickyCss .= "\t" . "position: fixed;\n";
+                $stickyCss .= "\t" . "bottom: 0;\n";
+                $stickyCss .= "\t" . "width: 100%;\n";
+                $stickyCss .= "\t" . "z-index: 9100;\n"; //#navigation z-index is 9000;
+                $stickyCss .= "}\n";
+
+                // sticky the bottom part too
+                $stickyCss .= "#footer-container {\n";
+                $stickyCss .= "\t" . "position: fixed;\n";
+                $stickyCss .= "\t" . "bottom: 0;\n";
+                $stickyCss .= "\t" . "width: 100%;\n";
+                $stickyCss .= "\t" . "z-index: 9100;\n"; //#navigation z-index is 9000;
+                $stickyCss .= "}\n";
+
+                $stickyCss .= "}\n";
+
+            }
+        }
+
+        $dropShadowCss = '';
+        if ($this->dropShadowApply != 'none' && $this->dropShadowColor != '') {
+
+            $applyElement = '';
+            if ($this->dropShadowApply == 'footer') {
+                if ($footer_widget_full_width == 'true') {
+                    $applyElement = '#footer-container';
+                } else {
+                    $applyElement = '#footer';
+                }
+            } else {
+                if ($footer_widget_full_width == 'true') {
+                    $applyElement = '#footer-widgets-container';
+                } else {
+                    $applyElement = '#footer-widgets';
+                }
+            }
+
+            $dropShadowCss .= "@media only screen and (min-width: 768px) {\n";
+
+            $dropShadowCss .= "$applyElement {\n";
+            $dropShadowCss .= "\t" . "box-shadow: " . $this->dropShadowPosition . ' ' . $this->dropShadowPosition .
+                ' ' . $this->dropShadowBlur . ' ' . $this->dropShadowColor . ";\n";
+            $dropShadowCss .= "}\n";
+
+            $dropShadowCss .= "}\n";
+        }
+
+        echo "<style>\n".
+            $footer_widget_css.
+            $stickyCss .
+            $dropShadowCss .
+            "</style>\n";
+    }
 } // End Class
 
 
