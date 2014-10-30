@@ -26,7 +26,7 @@
 
                     // if footer widget area is sticky, sticky the bottom part too
                     if ((PPFooterCustomizer.stickyWidgetAreaDesktop && PPFooterCustomizer.isFooterFullWidth)
-                        || PPFooterCustomizer.stickyFooterDesktop) {
+                        || (PPFooterCustomizer.stickyFooterDesktop && PPFooterCustomizer.isFooterFullWidth)) {
                         var footerHeight = $footerElement.outerHeight();
 
                         var marginBottom = 0;
