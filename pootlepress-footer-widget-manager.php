@@ -28,6 +28,7 @@ License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2
 
 	require_once( 'pootlepress-footer-widget-manager-functions.php' );
 	require_once( 'classes/class-pootlepress-footer-widget-manager.php' );
+    require_once( 'classes/class-pootlepress-canvas-options.php');
     require_once( 'classes/class-pootlepress-updater.php');
 
     $GLOBALS['pootlepress_footer_widget_manager'] = new Pootlepress_Footer_Widget_Manager( __FILE__ );
