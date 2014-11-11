@@ -58,32 +58,32 @@ if (!class_exists('PootlePress_Canvas_Options')) {
             return $foundIndex;
         }
 
-        public function filter_get_option($allOptions) {
+        public function filter_get_option($allWooOptions) {
 
             foreach ($this->addedOptionData as $optionData) {
                 if (!isset($optionData['options'])) {
                     continue;
                 }
 
-                $index = $this->find_index_of_option($allOptions, $optionData);
+                $index = $this->find_index_of_option($allWooOptions, $optionData);
                 if ($index >= 0) {
 
                     // check if it is already added
-                    $temp = array_slice($allOptions, $index + 1, count($optionData['options']));
+                    $temp = array_slice($allWooOptions, $index + 1, count($optionData['options']));
                     if ($temp != $optionData['options']) {
                         // insert after the index
-                        array_splice($allOptions, $index + 1, 0, $optionData['options']);
+                        array_splice($allWooOptions, $index + 1, 0, $optionData['options']);
 
                     }
 
                 } else {
 
                     // insert at the end
-                    array_splice($allOptions, count($allOptions), 0, $optionData['options']);
+                    array_splice($allWooOptions, count($allWooOptions), 0, $optionData['options']);
                 }
             }
 
-            return $allOptions;
+            return $allWooOptions;
         }
     }
 }
