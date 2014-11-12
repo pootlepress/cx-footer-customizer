@@ -10,6 +10,11 @@ Instructions
 
 Versions
 
+12.11.2014 - Version 2.0
+ * New - Sticky footer options for footer widget area and footer on desktop and mobile
+ * New - footer drop shadow options
+ * Tweak - solve woo options add issue to make compatible with WooThemes Child Themes
+
 v1.1 - ability to update within WordPress
 
 v1.0.5 - fix php warning and add woo_options_add issue
