@@ -31,6 +31,7 @@ License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2
     require_once( 'classes/class-pootlepress-canvas-options.php');
     require_once( 'classes/class-pootlepress-updater.php');
 
+    // construct this main class, after including Canvas Option class, so the Canvas Options object is already created
     $GLOBALS['pootlepress_footer_widget_manager'] = new Pootlepress_Footer_Widget_Manager( __FILE__ );
     $GLOBALS['pootlepress_footer_widget_manager']->version = '2.0';
 

@@ -58,7 +58,6 @@ class Pootlepress_Footer_Widget_Manager {
 		register_activation_hook( $file, array( &$this, 'activation' ) );
 
 		// Add the custom theme options.
-
         $this->add_theme_options();
 
 		// Lood for a method/function for the selected style and load it.
