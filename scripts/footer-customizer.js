@@ -8,9 +8,8 @@
                 footerCustomizerSticky();
             });
 
-            footerCustomizerSticky();
-
-
+            // define this function first, before it is called,
+            // or else it will cause js error in Firefox
             function footerCustomizerSticky() {
                 var $footerElement = null;
                 var $footerWidgetAreaElement = null;
@@ -55,6 +54,9 @@
 
                 }
             }
+
+            footerCustomizerSticky();
+
         }
     });
 
