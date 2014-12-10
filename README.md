@@ -10,6 +10,9 @@ Instructions
 
 Versions
 
+10.12.2014 - Version 2.0.1
+ * Fix - styles and javascript interfering with other extensions
+
 12.11.2014 - Version 2.0
  * New - Sticky footer options for footer widget area and footer on desktop and mobile
  * New - footer drop shadow options
