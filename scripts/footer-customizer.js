@@ -36,6 +36,8 @@
                         }
 
                         $footerWidgetAreaElement.css('margin-bottom', marginBottom + 'px');
+
+                        $('#content').css('margin-bottom', $footerWidgetAreaElement.outerHeight(true) + 'px');
                     } else {
                         $footerWidgetAreaElement.css('margin-bottom', '0px');
                     }
