@@ -37,7 +37,13 @@
 
                         $footerWidgetAreaElement.css('margin-bottom', marginBottom + 'px');
 
-                        $('#content').css('margin-bottom', $footerWidgetAreaElement.outerHeight(true) + 'px');
+                        var extraSpace = $footerWidgetAreaElement.outerHeight(true);
+
+                        var originalPaddingBottomPx = $('#content').css('padding-bottom');
+                        var originalPaddingBottom = parseInt(originalPaddingBottomPx.replace('px', ''));
+                        var newPaddingBottom = originalPaddingBottom + extraSpace;
+
+                        $('#content').css('padding-bottom', newPaddingBottom + 'px');
                     } else {
                         $footerWidgetAreaElement.css('margin-bottom', '0px');
                     }
