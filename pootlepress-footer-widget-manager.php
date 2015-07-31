@@ -29,28 +29,22 @@ License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2
 	require_once( 'pootlepress-footer-widget-manager-functions.php' );
 	require_once( 'classes/class-pootlepress-footer-widget-manager.php' );
     require_once( 'classes/class-pootlepress-canvas-options.php');
+    require_once( 'classes/class-pootlepress-updater.php');
 
     // construct this main class, after including Canvas Option class, so the Canvas Options object is already created
     $GLOBALS['pootlepress_footer_widget_manager'] = new Pootlepress_Footer_Widget_Manager( __FILE__ );
     $GLOBALS['pootlepress_footer_widget_manager']->version = '2.0';
 
-//CX API
-require 'pp-cx/class-pp-cx-init.php';
-new PP_Canvas_Extensions_Init(
-	array(
-		'key'          => 'footer-customizer',
-		'label'        => 'Footer Customizer',
-		'url'          => 'http://www.pootlepress.com/shop/footer-widget-manager-woothemes-canvas/',
-		'description'  => "A powerful Canvas Extension that gives you a huge amount of options to customise your footer – right there in the Canvas Theme Options dashboard.",
-		'img'          => 'http://www.pootlepress.com/wp-content/uploads/2014/01/footericon.png',
-		'installed'    => true,
-		'settings_url' => admin_url( 'admin.php?page=pp-extensions&cx=footer-customizer' ),
-	),
-	array(
-		//Tabs coming soon
-	),
-	'pp_cx_footer_customizer',
-	'Canvas Extension - Footer Customizer',
-	$GLOBALS['pootlepress_footer_widget_manager']->version,
-	__FILE__
-);
+add_action('init', 'pp_fwm_updater');
+function pp_fwm_updater()
+{
+    if (!function_exists('get_plugin_data')) {
+        include(ABSPATH . 'wp-admin/includes/plugin.php');
+    }
+    $data = get_plugin_data(__FILE__);
+    $wptuts_plugin_current_version = $data['Version'];
+    $wptuts_plugin_remote_path = 'http://www.pootlepress.com/?updater=1';
+    $wptuts_plugin_slug = plugin_basename(__FILE__);
+    new Pootlepress_Updater ($wptuts_plugin_current_version, $wptuts_plugin_remote_path, $wptuts_plugin_slug);
+}
+?>
