@@ -46,7 +46,7 @@ if ( ! class_exists( 'PootlePress_API_Manager_Menu' ) ) {
 					foreach ( $settings_tabs as $tab_page => $tab_name ) {
 						if ( empty( $tab ) ) { $tab = $this->activation_tab_key; }
 						$active_tab = $tab == $tab_page ? 'current' : '';
-						if ( 0 != strpos( $tab_page, '?' ) && 0 != strpos( $tab_page, 'http://' ) ) {
+						if ( 0 !== strpos( $tab_page, '?' ) && 0 !== strpos( $tab_page, 'http://' ) ) {
 							echo '<li><a class="tab ' . $active_tab . '" href="?page=pp-extensions&cx=' . $this->cx_key . '&tab=' . $tab_page . '">' . $tab_name . '</a></li>';
 						} else {
 							echo '<li><a class="tab ' . $active_tab . '" href="' . $tab_page . '">' . $tab_name . '</a></li>';
