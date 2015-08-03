@@ -47,7 +47,7 @@ new PP_Canvas_Extensions_Init(
 		'settings_url' => admin_url( 'admin.php?page=pp-extensions&cx=footer-customizer' ),
 	),
 	array(
-		//Tabs coming soon
+		'?page=woothemes&tab=footer-customizer' => 'General',
 	),
 	'pp_cx_footer_customizer',
 	'Canvas Extension - Footer Customizer',
