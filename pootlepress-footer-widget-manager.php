@@ -44,13 +44,7 @@ new PP_Canvas_Extensions_Init(
 		'description'  => "A powerful Canvas Extension that gives you a huge amount of options to customise your footer – right there in the Canvas Theme Options dashboard.",
 		'img'          => 'http://www.pootlepress.com/wp-content/uploads/2014/01/footericon.png',
 		'installed'    => true,
-		'settings_url' => admin_url( 'admin.php?page=pp-extensions&cx=footer-customizer' ),
+		'settings_url' => admin_url( 'admin.php?page=woothemes&tab=footer-customizer' ),
 	),
-	array(
-		'?page=woothemes&tab=footer-customizer' => 'General Settings',
-	),
-	'pp_cx_footer_customizer',
-	'Canvas Extension - Footer Customizer',
-	$GLOBALS['pootlepress_footer_widget_manager']->version,
 	__FILE__
 );
