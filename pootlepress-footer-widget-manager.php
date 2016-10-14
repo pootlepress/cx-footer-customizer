@@ -3,7 +3,7 @@
 Plugin Name: Canvas Extension - Footer Customizer
 Plugin URI: http://pootlepress.com/canvas-extensions
 Description: An extension for WooThemes Canvas that allows you to customise your footer widgets
-Version: 2.0
+Version: 2.0.1
 Author: PootlePress
 Author URI: http://pootlepress.com/
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -33,18 +33,4 @@ License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2
 
     // construct this main class, after including Canvas Option class, so the Canvas Options object is already created
     $GLOBALS['pootlepress_footer_widget_manager'] = new Pootlepress_Footer_Widget_Manager( __FILE__ );
-    $GLOBALS['pootlepress_footer_widget_manager']->version = '2.0';
-
-add_action('init', 'pp_fwm_updater');
-function pp_fwm_updater()
-{
-    if (!function_exists('get_plugin_data')) {
-        include(ABSPATH . 'wp-admin/includes/plugin.php');
-    }
-    $data = get_plugin_data(__FILE__);
-    $wptuts_plugin_current_version = $data['Version'];
-    $wptuts_plugin_remote_path = 'http://www.pootlepress.com/?updater=1';
-    $wptuts_plugin_slug = plugin_basename(__FILE__);
-    new Pootlepress_Updater ($wptuts_plugin_current_version, $wptuts_plugin_remote_path, $wptuts_plugin_slug);
-}
-?>
+    $GLOBALS['pootlepress_footer_widget_manager']->version = '2.0.1';
